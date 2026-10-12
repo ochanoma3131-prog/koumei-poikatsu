@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="孔明のポイ活軍略（YouTube）の診断ページ。経済圏とポイントサイトを、はい・いいえで答えて選ぶ目安にします。">
+<meta property="og:title" content="孔明のポイ活軍略｜ポイントサイト診断">
+<meta property="og:description" content="経済圏とポイントサイトを、はい・いいえで答えて選ぶ目安に。条件は必ず各公式ページで確かめてください。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<title>孔明のポイ活軍略</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* 配置: 夜の軍議の一枚絵を全幅に敷き、縦書きの筆題を重ねる → 紙面は細い罫と余白で区切り、竹簡（縦書き）・夜の陣容・二つの陣（経済圏／ポイントサイト）・木札・国庫帳・招待コードの順 */
+:root {
+  --night: #0b1712;
+  --night-2: #12241c;
+  --night-3: #1a3227;
+  --night-ink: #edf2ec;
+  --night-muted: #9db3a6;
+  --paper: #f1f3ee;
+  --sheet: #fbfcf9;
+  --ink: #141c17;
+  --muted: #5c6a61;
+  --line: #d4dcd5;
+  --hair: #e3e8e3;
+  --jade: #18664a;
+  --jade-soft: #e1eee6;
+  --gold: #b48a33;
+  --gold-hi: #d8b465;
+  --vermilion: #b0341f;
+  --slip: #e8dcb3;
+  --slip-edge: #c5ae6c;
+  --brush: "Yuji Syuku", "Shippori Mincho B1", "Yu Mincho", serif;
+  --display: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --z-raku: #bf2a1f; --z-d: #c8103e; --z-ponta: #d8761c; --z-v: #1c4f97; --z-paypay: #d6273b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1612; --sheet: #151e19; --ink: #e6ece7; --muted: #9aada1; --line: #2a3830; --hair: #1f2a24;
+    --jade: #5fb790; --jade-soft: #1a2b23; --gold: #d2ac5b; --vermilion: #e66f59;
+    --slip: #3b3524; --slip-edge: #6f6341;
+    --z-raku: #e5675b; --z-d: #ec5a7c; --z-ponta: #efa05a; --z-v: #6d9be0; --z-paypay: #ee6474;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f1612; --sheet: #151e19; --ink: #e6ece7; --muted: #9aada1; --line: #2a3830; --hair: #1f2a24;
+  --jade: #5fb790; --jade-soft: #1a2b23; --gold: #d2ac5b; --vermilion: #e66f59;
+  --slip: #3b3524; --slip-edge: #6f6341;
+  --z-raku: #e5675b; --z-d: #ec5a7c; --z-ponta: #efa05a; --z-v: #6d9be0; --z-paypay: #ee6474;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15.5px; line-height: 1.85; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+.in { max-width: 1160px; margin: 0 auto; padding-inline: 20px; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* 上の帯 */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(11, 23, 18, .86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(216, 180, 101, .22); }
+.bar .in { display: flex; align-items: center; justify-content: space-between; gap: 6px 14px; min-height: 52px; flex-wrap: wrap; padding-block: 6px; }
+.bar .mark { font-family: var(--display); font-weight: 800; color: var(--night-ink); letter-spacing: .12em; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+.bar .mark i { width: 22px; height: 22px; border: 1.5px solid #e66f59; color: #e66f59; font-style: normal; font-size: 12px; display: grid; place-items: center; border-radius: 3px; }
+.bar nav { display: flex; gap: 4px 16px; flex-wrap: wrap; font-size: 13px; }
+.bar nav a { color: var(--night-muted); text-decoration: none; letter-spacing: .06em; }
+.bar nav a:hover { color: var(--gold-hi); }
+
+/* 夜の軍議 */
+.hero { position: relative; background: var(--night); color: var(--night-ink); overflow: hidden; isolation: isolate; }
+.hero .art { position: absolute; inset: 0 0 0 50%; background: url("img/p11.webp") 42% 22% / cover no-repeat; z-index: -2; }
+.hero .art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--night) 0%, rgba(11, 23, 18, .55) 16%, rgba(11, 23, 18, .05) 45%, rgba(11, 23, 18, .4) 100%), linear-gradient(0deg, var(--night) 0%, transparent 30%); }
+.hero .frame { position: absolute; inset: 18px; border: 1px solid rgba(216, 180, 101, .28); pointer-events: none; z-index: -1; }
+.hero .in { display: grid; grid-template-columns: max-content minmax(0, 27em); justify-content: start; gap: clamp(20px, 4vw, 56px); align-items: end; padding-block: clamp(56px, 9vw, 120px) clamp(48px, 7vw, 96px); }
+.vt { writing-mode: vertical-rl; margin: 0; font-family: var(--brush); font-weight: 400; font-size: clamp(60px, 9.5vw, 128px); line-height: 1.02; letter-spacing: .02em; text-shadow: 0 0 40px rgba(95, 183, 144, .25); }
+.vt .sm { font-size: .46em; color: var(--gold-hi); margin-block-start: .35em; letter-spacing: .1em; }
+.pitch .kicker { font-size: 12px; letter-spacing: .32em; color: var(--gold-hi); }
+.pitch .lead { font-family: var(--display); font-weight: 700; font-size: clamp(21px, 2.5vw, 28px); line-height: 1.55; margin: 14px 0; text-wrap: balance; }
+.pitch .sub { color: var(--night-muted); margin: 0 0 26px; }
+.pitch { text-shadow: 0 1px 12px rgba(11, 23, 18, .9); }
+.quote { font-family: var(--display); font-size: 14px; letter-spacing: .04em; border-left: 2px solid var(--gold-hi); padding-left: 12px; margin: 0 0 22px; opacity: .92; }
+.ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 14px; font-weight: 700; letter-spacing: .04em; padding: 11px 20px; border-radius: 2px; text-decoration: none; border: 1px solid transparent; cursor: pointer; }
+.btn.gold { background: var(--gold-hi); color: #1a1408; }
+.btn.gold:hover { background: #e6c47a; }
+.btn.line { border-color: rgba(237, 242, 236, .32); color: var(--night-ink); }
+.btn.line[aria-disabled="true"] { opacity: .55; cursor: default; }
+@media (max-width: 640px) {
+  .hero .art { inset: 0; opacity: .5; }
+  .hero .in { grid-template-columns: minmax(0, 1fr); }
+  .vt { writing-mode: horizontal-tb; font-size: 50px; }
+  .vt .sm { margin: 0 .2em; }
+}
+
+/* 見出し */
+section.blk { padding-block: clamp(64px, 8vw, 104px); }
+.head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 22px; align-items: start; margin-bottom: 36px; }
+.head .no { writing-mode: vertical-rl; font-family: var(--brush); font-size: 22px; color: var(--vermilion); letter-spacing: .2em; border-left: 1px solid var(--vermilion); padding-left: 8px; line-height: 1.3; }
+.head h2 { font-family: var(--display); font-weight: 800; font-size: clamp(26px, 3.4vw, 38px); margin: 0; line-height: 1.25; letter-spacing: .02em; text-wrap: balance; }
+.head p { margin: 8px 0 0; color: var(--muted); max-width: 46em; }
+.sep { max-width: 1160px; margin: 0 auto; padding-inline: 20px; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 14px; align-items: center; color: var(--gold); }
+.sep::before, .sep::after { content: ""; height: 1px; background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent); opacity: .5; }
+.sep span { font-family: var(--brush); font-size: 18px; }
+
+/* 竹簡（縦書き） */
+.slips { display: flex; flex-direction: row-reverse; justify-content: center; position: relative; padding-block: 18px; }
+.slips::before, .slips::after { content: ""; position: absolute; left: 8%; right: 8%; height: 2px; background: var(--slip-edge); opacity: .7; }
+.slips::before { top: 34px; } .slips::after { bottom: 34px; }
+.slip { writing-mode: vertical-rl; background: linear-gradient(90deg, var(--slip-edge) 0 2px, var(--slip) 2px calc(100% - 2px), var(--slip-edge) calc(100% - 2px)); padding: 26px 18px; min-height: 360px; display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 1; }
+.slip + .slip { margin-right: 8px; }
+.slip .k { font-family: var(--brush); font-size: 30px; color: var(--vermilion); line-height: 1; }
+.slip h3 { font-family: var(--display); font-weight: 800; font-size: 21px; margin: 0; letter-spacing: .1em; }
+.slip p { margin: 0; font-size: 13.5px; line-height: 1.8; }
+@media (max-width: 760px) {
+  .slips { flex-direction: column; gap: 8px; padding-block: 0; }
+  .slips::before, .slips::after { display: none; }
+  .slip { writing-mode: horizontal-tb; min-height: 0; padding: 16px 18px; background: linear-gradient(180deg, var(--slip-edge) 0 2px, var(--slip) 2px calc(100% - 2px), var(--slip-edge) calc(100% - 2px)); }
+  .slip + .slip { margin-right: 0; }
+}
+
+/* 陣容（夜の帯） */
+.night { background: var(--night); color: var(--night-ink); }
+.night .head p { color: var(--night-muted); }
+.cast { display: grid; grid-template-columns: 1.5fr repeat(4, minmax(0, 1fr)); align-items: end; border-bottom: 1px solid rgba(216, 180, 101, .35); }
+.who { min-width: 0; padding: 0 6px; }
+.who .pic { aspect-ratio: 3 / 4; display: grid; place-items: end center; overflow: hidden; background: radial-gradient(60% 45% at 50% 72%, var(--night-3), transparent 70%); }
+.who.lead .pic { aspect-ratio: 5 / 5.2; }
+.who img { height: 100%; width: auto; max-width: 100%; object-fit: contain; object-position: bottom; transition: transform .35s ease; }
+.who:hover img { transform: translateY(-6px); }
+@media (prefers-reduced-motion: reduce) { .who img { transition: none; } .who:hover img { transform: none; } }
+.who .cap { padding: 12px 4px 18px; border-top: 1px solid rgba(216, 180, 101, .35); }
+.who .nm { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.who .nm b { font-family: var(--display); font-size: 22px; font-weight: 800; letter-spacing: .06em; }
+.who .nm span { font-size: 11px; letter-spacing: .14em; color: var(--gold-hi); }
+.who .ln { margin: 4px 0 0; font-size: 13px; color: var(--night-muted); line-height: 1.7; }
+@media (max-width: 900px) { .cast { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; border-bottom: 0; } .who.lead { grid-column: 1 / -1; } .who.lead .pic { aspect-ratio: 16 / 11; } }
+
+/* 二つの陣（診断） */
+.camp { background: var(--sheet); border: 1px solid var(--line); }
+.camp + .camp { margin-top: 28px; }
+.camp-h { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 18px 22px; border-bottom: 1px solid var(--line); }
+.camp-h .seal { width: 46px; height: 46px; border: 2px solid var(--vermilion); color: var(--vermilion); display: grid; place-items: center; font-family: var(--brush); font-size: 24px; border-radius: 3px; transform: rotate(-3deg); }
+.camp-h h3 { font-family: var(--display); font-weight: 800; font-size: 22px; margin: 0; line-height: 1.3; }
+.camp-h p { margin: 0; color: var(--muted); font-size: 13.5px; }
+.camp-b { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+.camp-b > div { padding: 18px 22px 22px; min-width: 0; }
+.camp-b .out { background: var(--paper); border-left: 1px solid var(--line); }
+@media (max-width: 860px) { .camp-b { grid-template-columns: minmax(0, 1fr); } .camp-b .out { border-left: 0; border-top: 1px solid var(--line); } .camp-h { grid-template-columns: auto minmax(0, 1fr); } .camp-h .mini { grid-column: 1 / -1; justify-self: start; } }
+.olab { font-size: 11.5px; letter-spacing: .24em; color: var(--jade); font-weight: 700; margin: 0 0 8px; }
+.row { display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 10px; padding-block: 9px; border-bottom: 1px solid var(--hair); }
+.row:last-child { border-bottom: 0; }
+.row .lab { font-weight: 700; font-size: 13.5px; padding-top: 4px; }
+@media (max-width: 480px) { .row { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); padding: 4px 12px; border-radius: 999px; cursor: pointer; }
+.chip:hover { border-color: var(--jade); }
+.chip[aria-pressed="true"] { background: var(--jade); border-color: var(--jade); color: var(--sheet); font-weight: 700; }
+.qa { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-block: 10px; border-bottom: 1px solid var(--hair); }
+.qa:last-child { border-bottom: 0; }
+.qa .qn { font-family: var(--display); font-weight: 800; color: var(--gold); font-size: 14px; white-space: nowrap; }
+.qa small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+@media (max-width: 480px) { .qa { grid-template-columns: minmax(0, 1fr) auto; } .qa .qn { display: none; } }
+.yn { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.yn button { font: inherit; font-size: 13px; padding: 5px 14px; border: 0; background: var(--sheet); color: var(--ink); cursor: pointer; }
+.yn button + button { border-left: 1px solid var(--line); }
+.yn button[aria-pressed="true"][data-v="1"] { background: var(--jade); color: var(--sheet); font-weight: 700; }
+.yn button[aria-pressed="true"][data-v="0"] { background: var(--ink); color: var(--sheet); font-weight: 700; }
+.mini { font: inherit; font-size: 12.5px; padding: 5px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; }
+.mini:hover { border-color: var(--ink); }
+.sample { display: inline-block; font-size: 11px; color: var(--vermilion); border: 1px solid var(--vermilion); border-radius: 2px; padding: 0 6px; margin-bottom: 10px; }
+.zones { display: grid; gap: 7px; }
+.zbar { display: grid; grid-template-columns: 7em minmax(0, 1fr) 2.4em; gap: 10px; align-items: center; font-size: 13px; }
+.zbar.top span:first-child { font-weight: 700; }
+.track { height: 10px; background: var(--hair); border-radius: 999px; overflow: hidden; }
+.fill { height: 100%; width: 0; border-radius: 999px; transition: width .4s ease; }
+@media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+.zbar .n { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.verdict { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.verdict .big { font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 1.3; }
+.verdict .big em { font-style: normal; color: var(--jade); }
+.verdict p { margin: 6px 0 0; font-size: 13.5px; color: var(--muted); }
+.say { display: grid; grid-template-columns: 50px minmax(0, 1fr); gap: 10px; align-items: start; margin: 0 0 14px; }
+.say img { width: 50px; height: 50px; object-fit: cover; object-position: 50% 6%; border-radius: 50%; border: 1.5px solid var(--gold); background: var(--jade-soft); }
+.say p { margin: 0; background: var(--sheet); border: 1px solid var(--line); padding: 9px 12px; border-radius: 2px 12px 12px 12px; font-size: 13.5px; }
+.card { background: var(--sheet); border: 1px solid var(--line); padding: 12px 14px 10px; }
+.card + .card { margin-top: 10px; }
+.card .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.card .role { font-size: 10.5px; letter-spacing: .2em; font-weight: 700; color: #fff; background: var(--vermilion); padding: 1px 8px; }
+.card.sub .role { background: var(--gold); color: #1a1408; }
+.card .ref { font-size: 11.5px; color: var(--jade); text-decoration: none; border-bottom: 1px dotted var(--jade); }
+.card h4 { font-family: var(--display); font-weight: 800; font-size: 22px; margin: 4px 0 2px; }
+.card ul { margin: 2px 0 4px; padding-left: 1.1em; font-size: 13.5px; line-height: 1.7; }
+.card .ct { font-size: 12.5px; color: var(--vermilion); }
+.bridge { margin-top: 28px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; background: var(--night); color: var(--night-ink); padding: 20px 22px; border: 1px solid rgba(216, 180, 101, .35); }
+.bridge .seal { width: 46px; height: 46px; border: 2px solid var(--gold-hi); color: var(--gold-hi); display: grid; place-items: center; font-family: var(--brush); font-size: 22px; border-radius: 3px; }
+.bridge h3 { margin: 0; font-family: var(--display); font-size: 19px; }
+.bridge p { margin: 2px 0 8px; color: var(--night-muted); font-size: 13.5px; }
+.tw { overflow-x: auto; min-width: 0; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { border-bottom: 1px solid var(--line); padding: 7px 10px; text-align: left; white-space: nowrap; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; letter-spacing: .06em; }
+.bridge th, .bridge td { border-color: rgba(216, 180, 101, .25); }
+.bridge th { color: var(--night-muted); }
+@media (max-width: 560px) { .bridge { grid-template-columns: minmax(0, 1fr); } }
+.notice { margin-top: 18px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+.notice b { color: var(--vermilion); }
+
+/* 木札の動画 */
+.eps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .eps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .eps { grid-template-columns: minmax(0, 1fr); } }
+.ep { display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.ep .th { aspect-ratio: 16 / 10; background: var(--night-2); overflow: hidden; display: grid; place-items: center; }
+.ep .th img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.ep:hover .th img { transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) { .ep .th img { transition: none; } .ep:hover .th img { transform: none; } }
+.ep .th .glyph { font-family: var(--brush); font-size: 64px; color: var(--gold-hi); opacity: .85; }
+.ep .bd { padding: 12px 2px 0; display: grid; gap: 4px; align-content: start; }
+.ep .no { font-size: 11.5px; color: var(--muted); letter-spacing: .16em; }
+.ep h3 { font-family: var(--display); font-weight: 700; font-size: 17px; margin: 0; line-height: 1.5; }
+.pill { justify-self: start; font-size: 11px; font-weight: 700; letter-spacing: .06em; padding: 1px 10px; border-radius: 999px; border: 1px solid currentColor; margin-top: 4px; }
+.pill.soon { color: var(--jade); } .pill.make { color: var(--gold); } .pill.wait { color: var(--muted); }
+
+/* 国庫帳 */
+.ledger { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.5fr); gap: 28px; align-items: stretch; }
+@media (max-width: 760px) { .ledger { grid-template-columns: minmax(0, 1fr); } }
+.tally { background: var(--night); color: var(--night-ink); padding: 24px; display: grid; align-content: space-between; gap: 10px; border-top: 3px solid var(--gold-hi); }
+.tally .lb { font-size: 11.5px; letter-spacing: .3em; color: var(--gold-hi); }
+.tally .big { font-family: var(--display); font-weight: 800; font-size: 64px; line-height: 1; font-variant-numeric: tabular-nums; }
+.tally .big span { font-size: 22px; margin-left: 6px; }
+.tally p { margin: 0; color: var(--night-muted); font-size: 13px; }
+
+/* 招待コード */
+.refs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 860px) { .refs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .refs { grid-template-columns: minmax(0, 1fr); } }
+.refc { background: var(--sheet); border: 1px solid var(--line); padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
+.refc .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.refc b { font-family: var(--display); font-size: 18px; }
+.pr { font-size: 10.5px; font-weight: 700; color: var(--vermilion); border: 1px solid var(--vermilion); padding: 0 6px; letter-spacing: .1em; font-family: var(--body); }
+.code { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.code output { font-family: ui-monospace, Consolas, monospace; font-size: 15px; letter-spacing: .08em; background: var(--paper); border: 1px dashed var(--line); padding: 3px 10px; user-select: all; }
+.code output.none { font-family: var(--body); font-size: 13px; letter-spacing: 0; color: var(--muted); user-select: auto; }
+.refc .gift { font-size: 12.5px; color: var(--muted); margin: 0; }
+.oath { margin-top: 18px; background: var(--sheet); border-left: 3px solid var(--vermilion); padding: 14px 18px; font-size: 14px; }
+.oath p { margin: 0 0 4px; }
+.oath p:last-child { margin: 0; }
+
+footer { background: var(--night); color: var(--night-muted); font-size: 12.5px; padding-block: 40px 48px; }
+footer .in { display: grid; gap: 6px; }
+footer b { color: var(--night-ink); font-family: var(--display); font-size: 18px; letter-spacing: .1em; }
+</style>
+</head>
+<body>
+
+
+<header class="bar">
+  <div class="in">
+    <a class="mark" href="#top"><i>軍</i>孔明のポイ活軍略</a>
+    <nav aria-label="ページ内"><a href="#rules">三箇条</a><a href="#cast">陣容</a><a href="#shindan">診断</a><a href="#eps">動画</a><a href="#kokko">国庫帳</a><a href="#refs">招待コード</a></nav>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="art" role="img" aria-label="暗い軍議の間で、光るスマホを掲げる孔明"></div>
+  <div class="frame" aria-hidden="true"></div>
+  <div class="in">
+    <h1 class="vt">孔明の<span class="sm">ポイ活</span>軍略</h1>
+    <div class="pitch">
+      <div class="kicker">三国時代に、スマホがあったら</div>
+      <p class="lead">長坂で敗れ、国庫は空。<br>軍師の策は「ポイ活」でした。</p>
+      <p class="quote">「これは、三国の話ではありません。あなたのスマホにも、同じ入口があります」</p>
+      <p class="sub">登録から入金まで、手順を一つも飛ばさずにお見せするチャンネルです。入るまでの日数や、ゼロになる落とし穴も必ず話します。</p>
+      <div class="ctas">
+        <a class="btn gold" href="#shindan">自分に合うサイトを診断する</a>
+        <a class="btn line" href="https://www.youtube.com/@koumei_poikatsu" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn line" href="https://x.com/koumei_poikatsu" target="_blank" rel="noopener">X</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section class="blk" id="rules">
+    <div class="in">
+      <div class="head"><span class="no">其の壱</span><div><h2>軍略三箇条と、ひとつの誓い</h2><p>このチャンネルが毎回守ること。</p></div></div>
+      <div class="slips" role="list">
+        <div class="slip" role="listitem"><span class="k">一</span><h3>手順を飛ばさない</h3><p>登録から入金まで、画面を順に全部見せる</p></div>
+        <div class="slip" role="listitem"><span class="k">二</span><h3>落とし穴を話す</h3><p>入るまでの日数・条件の読み落とし・解約忘れ</p></div>
+        <div class="slip" role="listitem"><span class="k">三</span><h3>数字は公式で確かめる</h3><p>金額や手数料には、確かめた日付を付ける</p></div>
+        <div class="slip" role="listitem"><span class="k">誓</span><h3>紹介は身近な方を優先</h3><p>ご友人やご家族のコードがあれば、そちらを</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk night" id="cast">
+    <div class="in">
+      <div class="head"><span class="no">其の弐</span><div><h2>陣容</h2><p>孔明が答え、劉備たちが視聴者の代わりに聞きます。</p></div></div>
+      <div class="cast">
+        <div class="who lead"><div class="pic"><img src="img/koumei.webp" alt="孔明" width="636" height="900" loading="lazy"></div><div class="cap"><div class="nm"><b>孔明</b><span>軍師・解説</span></div><p class="ln">「ポイントで、蜀の国庫を立て直しております」</p></div></div>
+        <div class="who"><div class="pic"><img src="img/liubei.webp" alt="劉備" width="474" height="640" loading="lazy"></div><div class="cap"><div class="nm"><b>劉備</b><span>素朴な疑問</span></div><p class="ln">「わしでも、銀行の口座など作れるのか」</p></div></div>
+        <div class="who"><div class="pic"><img src="img/guanyu.webp" alt="関羽" width="476" height="640" loading="lazy"></div><div class="cap"><div class="nm"><b>関羽</b><span>まじめな問い</span></div><p class="ln">「そのポイントとやらは、本当に金に換わるのか」</p></div></div>
+        <div class="who"><div class="pic"><img src="img/zhangfei.webp" alt="張飛" width="478" height="640" loading="lazy"></div><div class="cap"><div class="nm"><b>張飛</b><span>ぶっ飛び</span></div><p class="ln">「千件申し込めば、酒が浴びるほど飲めるな！」</p></div></div>
+        <div class="who"><div class="pic"><img src="img/zhaoyun.webp" alt="趙雲" width="477" height="640" loading="lazy"></div><div class="cap"><div class="nm"><b>趙雲</b><span>冷静な問い</span></div><p class="ln">「申し込んだかどうかは、どこで確かめられますか」</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="shindan">
+    <div class="in">
+      <div class="head"><span class="no">其の参</span><div><h2>軍略図</h2><p>二つの陣で見立てます。其の一で経済圏を、其の二でポイントサイトを。答えはこの画面の中だけで計算し、どこにも送りません。</p></div></div>
+
+      <div class="camp" id="camp1">
+        <div class="camp-h"><span class="seal" aria-hidden="true">一</span><div><h3>其の一　経済圏の見立て</h3><p>携帯・クレカ・銀行など、いま使っているものから、どのポイントに寄せるとまとまるかを見ます。</p></div><button class="mini" id="reset1" type="button">答えを消す</button></div>
+        <div class="camp-b">
+          <div><p class="olab">いちばんよく使っているものを1つずつ</p><div id="zoneRows"></div></div>
+          <div class="out" aria-live="polite"><p class="olab">見立て</p><span class="sample" id="sample1">例：ドコモ回線・楽天カードの人</span><div class="zones" id="zones"></div><div class="verdict" id="verdict1"></div></div>
+        </div>
+      </div>
+
+      <div class="camp" id="camp2">
+        <div class="camp-h"><span class="seal" aria-hidden="true">二</span><div><h3>其の二　ポイントサイトの見立て</h3><p>「はい／いいえ」の7問で、メインとサブに向くサイトを出します。1つに絞らず、2つを使い分ける前提です。</p></div><button class="mini" id="reset2" type="button">答えを消す</button></div>
+        <div class="camp-b">
+          <div><p class="olab">当てはまれば「はい」・迷ったら空けたまま</p><div id="qRows"></div></div>
+          <div class="out" aria-live="polite"><p class="olab">見立て</p><span class="sample" id="sample2">例として答えてあります</span><div class="say"><img src="img/koumei.webp" alt="" width="50" height="50"><p id="say"></p></div><div id="pick"></div></div>
+        </div>
+      </div>
+
+      <div class="bridge">
+        <span class="seal" aria-hidden="true">合</span>
+        <div><h3 id="bridgeTitle">二つを合わせると</h3><p id="bridgeText"></p><div class="tw" id="bridgeTable"></div></div>
+      </div>
+
+      <p class="notice"><b>注意</b>　数字は2026年10月8日時点の各社公式ページによります。ポイントインカムは10月5日に不正アクセスの疑いを検知し、10月7日に公表しています（Web版は10月7日、アプリは10月9日に再開）。ワラウは不正なアクセスを検知して、10月10日にサービス全体を止めました（再開の状況は公式でご確認ください）。10月13日にも見直し、ワラウ以外の数字は同じでした。どのサイトも、ほかで使っているパスワードは使い回さず、電話番号の認証などを設定してください。</p>
+    </div>
+  </section>
+
+  <div class="sep" aria-hidden="true"><span>軍</span></div>
+
+  <section class="blk" id="eps">
+    <div class="in">
+      <div class="head"><span class="no">其の肆</span><div><h2>動画</h2><p>漫画の序章から、実際に登録して入金されるまでを順に。</p></div></div>
+      <div class="eps">
+        <article class="ep"><div class="th"><img src="img/op01_thumb.webp" alt="劉備軍 破産!? 孔明の策はポイ活" width="1280" height="720" loading="lazy"></div><div class="bd"><span class="no">序章・漫画</span><h3>長坂で大敗した劉備軍、孔明の策はポイ活だった</h3><span class="pill soon">公開</span></div></article>
+        <article class="ep"><div class="th"><span class="glyph">零</span></div><div class="bd"><span class="no">第0話</span><h3>ポイントサイトはどれを使う？ 1つに絞らない理由</h3><span class="pill soon">公開</span></div></article>
+        <article class="ep"><div class="th"><span class="glyph">壱</span></div><div class="bd"><span class="no">第1話</span><h3>UNO! でレベル60に挑む（ゲームアプリの案件）</h3><span class="pill make">制作中</span></div></article>
+        <article class="ep"><div class="th"><img src="img/p05.webp" alt="ポイントに首をかしげる劉備たち" width="1600" height="893" loading="lazy"></div><div class="bd"><span class="no">第2話</span><h3>モッピー登録から最初の1件、550円が銀行に入るまで</h3><span class="pill make">制作中</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep" aria-hidden="true"><span>庫</span></div>
+
+  <section class="blk" id="kokko">
+    <div class="in">
+      <div class="head"><span class="no">其の伍</span><div><h2>蜀の国庫帳</h2><p>動画の中で実際に得たポイントを、1つずつ記帳します。1ポイント＝1両。</p></div></div>
+      <div class="ledger">
+        <div class="tally"><div class="lb">軍資金</div><div class="big">550<span>両</span></div><p>2026年10月8日時点。銀行への交換はこれから。</p></div>
+        <div class="tw"><table>
+          <tr><th>日付</th><th>案件</th><th>どこで</th><th>状態</th><th>両</th></tr>
+          <tr><td>2026-10-08</td><td>DMM TV 無料お試し</td><td>モッピー</td><td>確定</td><td>550</td></tr>
+          <tr><td>—</td><td>ゲームアプリの案件（第2話）</td><td>モッピー</td><td>進行中</td><td>—</td></tr>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep" aria-hidden="true"><span>誓</span></div>
+
+  <section class="blk" id="refs">
+    <div class="in">
+      <div class="head"><span class="no">其の陸</span><div><h2>招待コード <span class="pr" style="vertical-align:middle">PR</span></h2><p>このチャンネルの招待コードです。使っていただくと、私にもポイントが入ります。</p></div></div>
+      <div class="refs" id="refList"></div>
+      <div class="oath">
+        <p>私のコードもありますが、ご友人やご家族でコードを持っている方がいれば、そちらを優先してください。</p>
+        <p>YouTubeやXのアプリの中でリンクを開くと、紹介が記録されないことがあります。SafariかChromeで開き直してから登録してください。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="in">
+    <b>孔明のポイ活軍略</b>
+    <span>三国志をもとにした創作です（三国時代にスマホがあったら、というパロディ）。画像はAIで生成しています。</span>
+    <span>声：Fish Audio ／ VOICEVOX:中部つるぎ</span>
+    <span>ポイントの条件・金額は変わることがあります。申し込む前に必ず各サービスの公式ページで確かめてください。この診断は目安で、投資・金融の助言ではありません。</span>
+    <span>運営：孔明のポイ活軍略（YouTube @koumei_poikatsu ／ X @koumei_poikatsu）。お問い合わせは X の DM へ。</span>
+    <span>このページはアクセス解析・広告タグを使っていません。診断の答えは、お使いのブラウザの中だけに保存されます（サーバーには送りません）。</span>
+    <span>2026年10月13日 更新</span>
+  </div>
+</footer>
+
+<script>
+// 招待コード: 取れたら code に貼るだけで、「招待コード」欄と診断の結果の両方に出る
+const REF_CODES = {
+  moppy:   { code: "jjdKA153", gift: "紹介から入会し、入会月の翌々月末までに広告の利用で5,000P以上が「承認」になると2,000P（付与は入会4か月目の中旬）。10月だけ、10/31までに登録＋入会日から3日連続ログイン＋広告を1件利用で抽選20名に10,000P。どちらもアプリマルチミッション・アンケート・ゲームなどは数えません（2026年10月11日時点・モッピー公式で確認）" },
+  warau:   { code: "", gift: "紹介経由の新規登録で特典あり（条件は公式で確認）" },
+  pi:      { code: "", gift: "紹介経由の特典は公式で確認" },
+  hapitas: { code: "", gift: "紹介経由の特典は公式で確認" },
+  paypay:  { name: "PayPay", code: "02-VTJ5Q46", gift: "新規登録から60日以内にコードを入れ、1回の会計で1,000円以上を払うと300ポイント（合計は対象外・一部の支払い先は対象外・2026年10月8日時点）" },
+};
+const ZONES = [
+  { id: "raku", name: "楽天", pt: "楽天ポイント", color: "var(--z-raku)" },
+  { id: "d", name: "ドコモ", pt: "dポイント", color: "var(--z-d)" },
+  { id: "ponta", name: "au・Ponta", pt: "Pontaポイント", color: "var(--z-ponta)" },
+  { id: "v", name: "三井住友・V", pt: "Vポイント", color: "var(--z-v)" },
+  { id: "paypay", name: "PayPay", pt: "PayPayポイント", color: "var(--z-paypay)" },
+];
+// 経済圏の早見表（2026-10-04 公式で確認）
+const ZONE_ROWS = [
+  { id: "carrier", label: "携帯の回線", opts: [["楽天モバイル", "raku"], ["ドコモ（ahamo含む）", "d"], ["au・UQ mobile", "ponta"], ["ソフトバンク・ワイモバイル", "paypay"]] },
+  { id: "card", label: "メインのクレカ", opts: [["楽天カード", "raku"], ["dカード", "d"], ["au PAY カード", "ponta"], ["三井住友カード", "v"], ["PayPayカード", "paypay"]] },
+  { id: "pay", label: "スマホ決済", opts: [["楽天ペイ", "raku"], ["d払い", "d"], ["au PAY", "ponta"], ["Vポイント Pay", "v"], ["PayPay", "paypay"]] },
+  { id: "bank", label: "銀行", opts: [["楽天銀行", "raku"], ["ドコモSMTBネット銀行", "d"], ["auじぶん銀行", "ponta"], ["三井住友銀行（Olive）", "v"], ["PayPay銀行", "paypay"]] },
+  { id: "sec", label: "証券", opts: [["楽天証券", "raku"], ["マネックス証券", "d"], ["三菱UFJ eスマート証券", "ponta"], ["SBI証券", "v"], ["PayPay証券", "paypay"]] },
+  { id: "shop", label: "ネット通販", opts: [["楽天市場", "raku"], ["dショッピング", "d"], ["au PAY マーケット", "ponta"], ["Yahoo!ショッピング", "paypay"], ["Amazon", null]] },
+];
+// ポイントサイト（2026-10-08 公式で確認）
+const SITES = {
+  warau:  { name: "ワラウ", base: 1, bank: "ゆうちょ・楽天・PayPayなど主な銀行で0円・1,000ptから", expire: "最後の獲得から1年", caution: "10/10に不正アクセスの対応でサービスを停止（再開の状況は公式で確認）。同じ案件でも入口（本体・提携）で額が違うことがある" },
+  pi:     { name: "ポイントインカム", base: 0, bank: "PayPay銀行は1,000円分以上で0円（10pt＝1円）", expire: "最後のログインから180日", caution: "2026/10/5に不正アクセスの疑いを検知・10/7に公表（Web版10/7・アプリ10/9に再開）。パスワードは使い回さない" },
+  moppy:  { name: "モッピー", base: 0, bank: "PayPay銀行だけ0円・300Pから", expire: "180日間獲得がないと取り消し", caution: "初めての交換で顔の確認がある" },
+  hapitas:{ name: "ハピタス", base: 1, bank: "現金はデジタルギフト経由で2,000ptから無料（直接は手数料100pt）", expire: "最後の獲得から180日", caution: "10/5から即日交換を一時停止中" },
+  chobi:  { name: "ちょびリッチ", base: 0, bank: "PayPay・楽天・ドコモの銀行は0円・500ptから", expire: "最後の獲得から1年", caution: "ゆうちょ・その他の銀行は150円" },
+  town:   { name: "ポイントタウン", base: 0, bank: "PayPay銀行0円・楽天銀行100pt", expire: "最後の獲得から365日", caution: "10/6からリアルタイム交換を一部停止中" },
+  amefri: { name: "アメフリ", base: 0, bank: "400円分から・月末締め翌月20日", expire: "最後のログインから1年", caution: "交換が届くのは翌月" },
+};
+const QS = [
+  { id: "cash", t: "ポイントは現金（銀行）で受け取りたい", s: "銀行に移す手数料と、最低いくらから移せるか",
+    add: { warau: [3, "主な銀行で手数料0円（1,000ptから）"], chobi: [2, "PayPay・楽天・ドコモの銀行なら0円（500ptから）"], moppy: [1, "PayPay銀行なら0円（300Pから）"], town: [1, "PayPay銀行なら0円"], pi: [1, "PayPay銀行へは1,000円分以上で0円"] } },
+  { id: "lazy", t: "ログインや利用を忘れがち", s: "期限がログインだけで延びるか",
+    add: { pi: [3, "ログインするだけで期限が延びる（180日）"], amefri: [3, "ログインするだけで期限が延びる（1年）"], warau: [1, "期限は最後の獲得から1年と長め"], chobi: [1, "期限は最後の獲得から1年"], town: [1, "期限は最後の獲得から365日"], moppy: [-2, ""], hapitas: [-2, ""] } },
+  { id: "big", t: "クレカ作成や口座開設など、大きい案件もやる", s: "同じクレカでも、サイトで数千円違うことがある",
+    add: { hapitas: [3, "クレカ・口座の還元が高い（例：三井住友カード(NL) 13,000円）"], moppy: [2, "クレカの還元が高い（例：楽天カード 9,000円）"] } },
+  { id: "game", t: "ゲームアプリの案件もやってみたい", s: "レベル到達でもらえる案件。時間はかかる",
+    add: { hapitas: [2, "ゲーム案件に強いという声が多い"], amefri: [2, "ゲーム案件に強いという声が多い"], moppy: [1, "アプリBOXに高額のゲーム案件がある"] } },
+  { id: "rank", t: "使うほど還元が増える「会員ランク」を重視", s: "長く1社を使い込む人向け",
+    add: { warau: [2, "会員ランクの評価が高い"], pi: [2, "会員ランクの評価が高い"] } },
+  { id: "small", t: "少ないポイントでも早く交換したい", s: "最低交換額が低いほど、早く使える",
+    add: { moppy: [2, "PayPay銀行へ300Pから"], warau: [2, "dポイント・Vポイントへ300ptから手数料0円"], chobi: [1, "500ptから交換できる"], hapitas: [-1, ""] } },
+  { id: "ppbank", t: "PayPay銀行の口座を持っている（作る予定）", s: "PayPay銀行なら手数料0円のサイトが多い",
+    add: { moppy: [2, "PayPay銀行への交換が0円"], chobi: [1, "PayPay銀行への交換が0円"], town: [1, "PayPay銀行への交換が0円"], pi: [1, "PayPay銀行へ1,000円分以上で0円"] } },
+];
+// 経済圏のポイントへ交換するときの手数料（公式で確かめた分だけ）
+const ZONE_FEE = {
+  d: [["ワラウ", "300ptから0円"], ["モッピー", "500Pから0円"]],
+  v: [["ワラウ", "300ptから0円"], ["モッピー", "535Pから・35P〜"]],
+  ponta: [["モッピー", "315Pから・15P〜"], ["ワラウ", "手数料5%"]],
+  raku: [["モッピー", "550Pから・50P〜"], ["ハピタス", "交換レートが不利"]],
+  paypay: [["モッピー", "PayPay銀行へ0円→チャージで0円（5営業日）"], ["モッピー", "PayPayポイントへ直接は550Pから・50P〜"], ["ワラウ", "PayPayポイントへは手数料10%"]],
+};
+const SAMPLE = { zone: { carrier: "d", card: "raku", pay: "d", bank: "paypay", sec: "raku", shop: "raku" }, ans: { cash: 1, lazy: 1, big: 0, game: 1, rank: 0, small: 1, ppbank: 1 } };
+let state = { zone: { ...SAMPLE.zone }, ans: { ...SAMPLE.ans }, s1: true, s2: true };
+try { const s = JSON.parse(localStorage.getItem("koumei-site-v2") || "null"); if (s && s.zone && s.ans) state = s; } catch (e) {}
+const save = () => { try { localStorage.setItem("koumei-site-v2", JSON.stringify(state)); } catch (e) {} };
+function el(tag, attrs = {}, ...kids) { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === "class") e.className = v; else e.setAttribute(k, v); } for (const k of kids) e.append(k); return e; }
+
+function buildInputs() {
+  const zr = document.getElementById("zoneRows");
+  ZONE_ROWS.forEach((row, ri) => {
+    const chips = el("div", { class: "chips", role: "group", "aria-label": row.label });
+    [...row.opts, ["それ以外", "none"]].forEach(([label, z], oi) => {
+      const b = el("button", { class: "chip", type: "button", id: `z${ri}_${oi}`, "data-row": row.id, "data-key": z === null ? "none:" + label : z }, label);
+      b.addEventListener("click", () => { state.zone[row.id] = b.dataset.key; state.s1 = false; save(); render(); });
+      chips.append(b);
+    });
+    zr.append(el("div", { class: "row" }, el("div", { class: "lab" }, row.label), chips));
+  });
+  const qr = document.getElementById("qRows");
+  QS.forEach((q, i) => {
+    const yn = el("div", { class: "yn", role: "group", "aria-label": q.t });
+    for (const [v, lab] of [[1, "はい"], [0, "いいえ"]]) {
+      const b = el("button", { type: "button", id: `q-${q.id}-${v}`, "data-v": String(v) }, lab);
+      b.addEventListener("click", () => { state.ans[q.id] = state.ans[q.id] === v ? undefined : v; state.s2 = false; save(); render(); });
+      yn.append(b);
+    }
+    qr.append(el("div", { class: "qa" }, el("span", { class: "qn" }, "問" + "一二三四五六七"[i]), el("div", {}, q.t, el("small", {}, q.s)), yn));
+  });
+}
+function zoneScores() { const sc = Object.fromEntries(ZONES.map(z => [z.id, 0])); for (const row of ZONE_ROWS) { const k = state.zone[row.id]; if (k && sc[k] !== undefined) sc[k]++; } return sc; }
+function topZone() { const r = Object.entries(zoneScores()).sort((a, b) => b[1] - a[1]); const tie = r.filter(x => x[1] === r[0][1] && r[0][1] > 0); return { id: r[0][0], v: r[0][1], tie: tie.map(x => x[0]) }; }
+function siteScores() {
+  const out = {};
+  for (const [id, s] of Object.entries(SITES)) out[id] = { id, ...s, score: s.base, why: s.base ? ["発信者の比較表で上位に入ることが多い"] : [] };
+  for (const q of QS) { if (state.ans[q.id] !== 1) continue; for (const [id, [p, why]] of Object.entries(q.add)) { out[id].score += p; if (why && p > 0) out[id].why.push(why); } }
+  return Object.values(out).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name, "ja"));
+}
+const zname = id => ZONES.find(z => z.id === id);
+
+function render() {
+  document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.key === (state.zone[b.dataset.row] || "none"))));
+  for (const q of QS) for (const v of [1, 0]) document.getElementById(`q-${q.id}-${v}`).setAttribute("aria-pressed", String(state.ans[q.id] === v));
+  document.getElementById("sample1").hidden = !state.s1;
+  document.getElementById("sample2").hidden = !state.s2;
+
+  // 其の一
+  const zs = zoneScores(), max = ZONE_ROWS.length, tz = topZone(), zb = document.getElementById("zones"); zb.innerHTML = "";
+  for (const z of ZONES) { const f = el("div", { class: "fill" }); f.style.background = z.color; f.style.width = (zs[z.id] / max * 100) + "%"; zb.append(el("div", { class: "zbar" + (tz.tie.includes(z.id) ? " top" : "") }, el("span", {}, z.name), el("div", { class: "track" }, f), el("span", { class: "n" }, `${zs[z.id]}/${max}`))); }
+  const v1 = document.getElementById("verdict1"); v1.innerHTML = "";
+  if (tz.v === 0) v1.append(el("div", { class: "big" }, "経済圏はまだ未定"), el("p", {}, "よく使うお店や携帯の会社のポイントから寄せていくのが近道です。"));
+  else if (tz.tie.length > 1) v1.append(el("div", { class: "big" }, el("em", {}, tz.tie.map(i => zname(i).name).join("・")), " にまたがり"), el("p", {}, "どちらかに寄せると、ポイントがまとまって使いやすくなります。"));
+  else { const z = zname(tz.id); v1.append(el("div", { class: "big" }, el("em", {}, `${z.name}経済圏`), " 寄り"), el("p", {}, `${max}項目中${tz.v}つが${z.name}。ポイントサイトで貯めた分は、${z.pt}に寄せるとまとまります。`)); }
+
+  // 其の二
+  const sites = siteScores(), main = sites[0], sub = sites[1];
+  document.getElementById("say").textContent = `メインは${main.name}、案件しだいで${sub.name}を併せて使うのがよいでしょう。同じ案件はどちらが高いかを見比べるのが上策です。`;
+  const pk = document.getElementById("pick"); pk.innerHTML = "";
+  for (const [s, role, cls] of [[main, "メイン", "card"], [sub, "サブ", "card sub"]]) {
+    const ul = el("ul"); const w = [...new Set(s.why)].slice(0, 4);
+    (w.length ? w : ["答えが少ないので、比較表での位置から選びました"]).forEach(x => ul.append(el("li", {}, x)));
+    ul.append(el("li", {}, `銀行へ：${s.bank}`), el("li", {}, `期限：${s.expire}`));
+    const top = el("div", { class: "top" }, el("span", { class: "role" }, role));
+    if (REF_CODES[s.id] && REF_CODES[s.id].code) top.append(el("a", { class: "ref", href: "#refs" }, "招待コードあり"));
+    pk.append(el("div", { class: cls }, top, el("h4", {}, s.name), ul, el("div", { class: "ct" }, "注意：" + s.caution)));
+  }
+
+  // 合わせると
+  const bt = document.getElementById("bridgeTitle"), bx = document.getElementById("bridgeText"), btab = document.getElementById("bridgeTable"); btab.innerHTML = "";
+  if (tz.v > 0 && tz.tie.length === 1) {
+    const z = zname(tz.id);
+    bt.textContent = `${z.name}経済圏 × メイン ${main.name}`;
+    bx.textContent = `貯めたポイントを${z.pt}に移すときの手数料（確かめた分だけ）。`;
+    const tb = el("table"); tb.append(el("tr", {}, el("th", {}, "サイト"), el("th", {}, `${z.pt}への交換`)));
+    (ZONE_FEE[tz.id] || []).forEach(([n, f]) => tb.append(el("tr", {}, el("td", {}, n), el("td", {}, f))));
+    btab.append(tb);
+  } else { bt.textContent = "二つを合わせると"; bx.textContent = "其の一で経済圏が1つに決まると、そのポイントへ交換するときの手数料をここに出します。"; }
+}
+
+function buildRefs() {
+  const box = document.getElementById("refList");
+  for (const [id, r] of Object.entries(REF_CODES)) {
+    const has = !!r.code;
+    const code = el("div", { class: "code" }, el("output", { class: has ? "" : "none" }, has ? r.code : "準備中（取得しだい掲載）"));
+    if (has) {
+      const b = el("button", { class: "mini", type: "button" }, "コピー");
+      b.addEventListener("click", async () => { try { await navigator.clipboard.writeText(r.code); b.textContent = "コピーしました"; } catch (e) { b.textContent = "選んでコピーしてください"; } setTimeout(() => (b.textContent = "コピー"), 1800); });
+      code.append(b);
+    }
+    box.append(el("div", { class: "refc" }, el("div", { class: "top" }, el("b", {}, r.name || SITES[id].name), el("span", { class: "pr" }, "PR")), code, el("p", { class: "gift" }, r.gift)));
+  }
+}
+
+document.getElementById("reset1").addEventListener("click", () => { state.zone = {}; state.s1 = false; save(); render(); });
+document.getElementById("reset2").addEventListener("click", () => { state.ans = {}; state.s2 = false; save(); render(); });
+buildInputs(); buildRefs(); render();
+</script>
+</body>
+</html>
